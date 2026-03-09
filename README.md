@@ -2,6 +2,8 @@
 
 Full API lifecycle management inside Cursor. Sync collections, generate typed client code, discover APIs, run tests, create mocks, improve documentation, and audit security. Powered by the [Postman MCP Server](https://github.com/postmanlabs/postman-mcp-server).
 
+> **Note:** This plugin mirrors the [Postman Plugin for Claude Code](https://github.com/Postman-Devrel/postman-claude-code-plugin), which is the source of truth for Postman's AI coding agent plugins.
+
 ## What This Plugin Does
 
 This plugin connects Cursor to your Postman account via the Postman MCP Server and bundles purpose-built commands, skills, and an API readiness analyzer. One install gives you:
@@ -21,6 +23,8 @@ This plugin connects Cursor to your Postman account via the Postman MCP Server a
 ## Installation
 
 ### From the Cursor Marketplace
+
+> **Coming soon:** Cursor Marketplace listing and `/add-plugin` support are not yet available. Use the GitHub or local install methods below for now.
 
 1. Open Cursor
 2. Run `/add-plugin postman` or browse the [marketplace](https://cursor.com/marketplace)
@@ -284,9 +288,15 @@ git clone https://github.com/Postman-Devrel/cursor-postman-plugin.git
 
 [Apache-2.0](LICENSE)
 
+## See Also
+
+- [Postman Plugin for Claude Code](https://github.com/Postman-Devrel/postman-claude-code-plugin) - The source of truth for all Postman AI coding plugins
+- [Postman Agent Skills](https://github.com/Postman-Devrel/agent-skills) - Portable skills for any skills.sh-compatible agent
+- [Postman Cursor Rules](https://github.com/Postman-Devrel/postman-cursor-rules) - Lightweight MCP config + rules for Cursor
+
 ## Links
 
 - [Postman MCP Server](https://github.com/postmanlabs/postman-mcp-server)
 - [Postman API Documentation](https://learning.postman.com/docs/)
 - [Cursor Plugin Documentation](https://cursor.com/docs/plugins)
-- [Cursor Marketplace](https://cursor.com/marketplace)
+- [Cursor Marketplace](https://cursor.com/marketplace) *(coming soon)*
