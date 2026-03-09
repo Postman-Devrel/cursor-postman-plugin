@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "postman": {
+      "type": "http",
+      "url": "https://mcp.postman.com/code",
+      "headers": {
+        "Authorization": "Bearer ${POSTMAN_API_KEY}"
+      }
+    }
+  }
+}

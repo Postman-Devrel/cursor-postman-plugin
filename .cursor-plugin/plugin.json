@@ -1,0 +1,25 @@
+{
+  "name": "postman",
+  "version": "1.0.0",
+  "description": "Full API lifecycle management for Cursor. Sync collections, generate client code, discover APIs, run tests, create mocks, improve docs, and audit security. Powered by the Postman MCP Server.",
+  "author": {
+    "name": "Postman DevRel",
+    "url": "https://www.postman.com"
+  },
+  "homepage": "https://github.com/Postman-Devrel/cursor-postman-plugin",
+  "repository": "https://github.com/Postman-Devrel/cursor-postman-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "postman",
+    "api",
+    "collections",
+    "testing",
+    "mcp",
+    "mocks",
+    "documentation",
+    "security",
+    "openapi",
+    "agent-ready"
+  ],
+  "logo": "assets/logo.svg"
+}
