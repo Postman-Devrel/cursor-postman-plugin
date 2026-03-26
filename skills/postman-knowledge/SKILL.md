@@ -32,15 +32,15 @@ Core Postman concepts and MCP tool guidance for making better decisions when wor
 
 ## When to Use What
 
-| Goal | Approach                                                                                                                                                                             |
-|------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Push code changes to Postman | Spec Hub + sync (`createSpec` -> `syncCollectionWithSpec`)                                                                                                                           |
-| Consume a Postman API in code | Read collection + codegen (`getCollection` -> generate client)                                                                                                                       |
+| Goal | Approach |
+|------|----------|
+| Push code changes to Postman | Spec Hub + sync (`createSpec` -> `syncCollectionWithSpec`) |
+| Consume a Postman API in code | Read collection + codegen (`getCollection` -> generate client) |
 | Find an API | Search private network (`searchPostmanElementsInPrivateNetwork`) or user's workspace (`getWorkspaces` + `getCollections`) or public network (`searchPostmanElementsInPublicNetwork`) |
-| Test an API | Run collection (`runCollection` with environment)                                                                                                                                    |
-| Fake an API for frontend | Mock server (`createMock` from collection with examples)                                                                                                                             |
-| Document an API | Analyze collection completeness, fill gaps, improve descriptions                                                                                                                     |
-| Secure an API | Audit spec and collection against OWASP API Top 10                                                                                                                                   |
+| Test an API | Run collection (`runCollection` with environment) |
+| Fake an API for frontend | Mock server (`createMock` from collection with examples) |
+| Document an API | Analyze collection completeness, fill gaps, improve descriptions |
+| Secure an API | Audit spec and collection against OWASP API Top 10 |                                                                                                                              |
 
 ## MCP Tool Selection Guide
 
