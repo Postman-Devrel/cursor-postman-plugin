@@ -15,17 +15,13 @@ Postman MCP Server must be configured. If MCP tools fail, tell the user to run `
 
 ### Step 1: Search
 
-**For private workspace content (user's own APIs):**
-1. Call `getWorkspaces` to list workspaces, filter by name if the user mentions one
-2. Call `getCollections` to list all collections in the workspace
-3. Call `getCollection` (full model) for collections that match the query
-4. Scan folder names, request names, and descriptions for the user's query terms
+1. Call `searchPostmanElementsInPrivateNetwork` with the user's query. This searches the organization's private API network and is the **primary** search path.
+2. If private network results are sparse or private network search is not available, broaden the search:
+   - Call `getWorkspaces` to get the user's workspace ID, then `getCollections` with the `workspace` parameter and `name` filter to browse collections directly.
+   - Call `getTaggedEntities` to find collections by tag.
+3. If the user is looking for a public/third-party API (e.g., Stripe, GitHub, Twilio), call `searchPostmanElementsInPublicNetwork` with the user's query.
 
-**For public API discovery:**
-1. Call `searchPostmanElementsInPublicNetwork` with the user's query
-2. Call `getTaggedEntities` to find collections by tag
-
-**Important:** `searchPostmanElementsInPublicNetwork` only searches the Postman public API network. It will NOT find the user's private collections. Always try the private workspace path first.
+**Important:** Default to `searchPostmanElementsInPrivateNetwork` for trusted APIs in user's organisation. Only use `searchPostmanElementsInPublicNetwork` when the user explicitly wants public/third-party APIs or private search returns no results.
 
 ### Step 2: Drill Into Results
 
@@ -97,6 +93,6 @@ Found 3 collections related to "payments":
 
 | Error | Response |
 |-------|----------|
-| No results found | "I didn't find any APIs matching that query across your workspaces. Try different keywords, or check if the collection exists in a different workspace." |
+| No results found | "Nothing matched in your private API network. Try different keywords, browse workspace collections with `getCollections`, or search the public Postman network." |
 | Empty workspace | "This workspace has no collections. Use /postman:sync to create one from an API spec." |
 | Auth failure | "Postman returned 401. Your API key may be expired. Run /postman:setup to reconfigure." |

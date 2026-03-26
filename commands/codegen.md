@@ -15,12 +15,13 @@ Postman MCP Server must be configured. If MCP tools fail, tell the user to run `
 
 ### Step 1: Find the API
 
-1. Call `getWorkspaces` if the user doesn't specify a workspace
-2. Call `getCollections` to list collections in the workspace
-3. Match by name or ask the user which collection to generate code from
-4. Call `getCollection` (full model) to get the complete collection with all requests, bodies, and params
-5. Call `getSpecDefinition` if a linked spec exists (richer type information)
-6. Call `getCodeGenerationInstructions` for the MCP server's recommended codegen workflow
+1. Call `searchPostmanElementsInPrivateNetwork` with the API name to find it in the organization's private network.
+2. If no results, call `getWorkspaces` to get the user's workspace ID, then `getCollections` with the `workspace` parameter and `name` filter to browse directly.
+3. If still no results, fall back to `searchPostmanElementsInPublicNetwork` to search the public Postman network.
+4. Match by name or ask the user which collection to generate code from.
+5. Call `getCollection` (full model) to get the complete collection with all requests, bodies, and params.
+6. Call `getSpecDefinition` if a linked spec exists (richer type information).
+7. Call `getCodeGenerationInstructions` for the MCP server's recommended codegen workflow.
 
 ### Step 2: Understand the API Shape
 
