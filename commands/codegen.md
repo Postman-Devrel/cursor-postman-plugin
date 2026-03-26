@@ -16,7 +16,7 @@ Postman MCP Server must be configured. If MCP tools fail, tell the user to run `
 ### Step 1: Find the API
 
 1. Call `searchPostmanElementsInPrivateNetwork` with the API name to find it in the organization's private network.
-2. If no results, call `getWorkspaces` to get the user's workspace ID, then `getCollections` with the `workspace` parameter and `name` filter to browse directly.
+2. If no results, call `getWorkspaces` to get the user's workspace ID. If multiple workspaces exist, ask which to use. Then use `getCollections` with the `workspace` parameter and `name` filter if the user specified an API name.
 3. If still no results, fall back to `searchPostmanElementsInPublicNetwork` to search the public Postman network.
 4. Match by name or ask the user which collection to generate code from.
 5. Call `getCollection` (full model) to get the complete collection with all requests, bodies, and params.

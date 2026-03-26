@@ -100,7 +100,7 @@ Generated: src/clients/user-management-api.ts (5 endpoints, 8 types)
 
 ### `/postman:search` -- Discover APIs
 
-Find APIs across your org's private network and the public Postman network using natural language questions.
+Find APIs across your org's private network, your workspaces, and the public Postman network using natural language questions.
 
 ```
 > /postman:search

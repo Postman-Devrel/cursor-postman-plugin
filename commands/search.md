@@ -17,7 +17,7 @@ Postman MCP Server must be configured. If MCP tools fail, tell the user to run `
 
 1. Call `searchPostmanElementsInPrivateNetwork` with the user's query. This searches the organization's private API network and is the **primary** search path.
 2. If private network results are sparse or private network search is not available, broaden the search:
-   - Call `getWorkspaces` to get the user's workspace ID, then `getCollections` with the `workspace` parameter and `name` filter to browse collections directly.
+   - Call `getWorkspaces` to get the user's workspace ID. If multiple workspaces exist, ask which to use. Then use `getCollections` with the `workspace` parameter. Use the `name` filter to narrow results.
    - Call `getTaggedEntities` to find collections by tag.
 3. If the user is looking for a public/third-party API (e.g., Stripe, GitHub, Twilio), call `searchPostmanElementsInPublicNetwork` with the user's query.
 
