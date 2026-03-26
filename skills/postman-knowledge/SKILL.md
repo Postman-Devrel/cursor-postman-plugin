@@ -40,7 +40,7 @@ Core Postman concepts and MCP tool guidance for making better decisions when wor
 | Test an API | Run collection (`runCollection` with environment) |
 | Fake an API for frontend | Mock server (`createMock` from collection with examples) |
 | Document an API | Analyze collection completeness, fill gaps, improve descriptions |
-| Secure an API | Audit spec and collection against OWASP API Top 10 |                                                                                                                              |
+| Secure an API | Audit spec and collection against OWASP API Top 10 |
 
 ## MCP Tool Selection Guide
 
