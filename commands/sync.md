@@ -100,4 +100,4 @@ Collection synced: "Pet Store API" (15 requests)
 
 - `createSpec` is impractical for very large specs (>50KB). For large specs, parse locally and create collection items directly using the decomposed approach.
 - Always use `getCollection` with the full model to read collections. This returns everything (folders, requests, bodies, params) in a single call.
-- For private API search, use `searchPostmanElementsInPrivateNetwork` (default). For user's APIs, use `getWorkspaces` + `getCollections`. For public APIs, use `searchPostmanElementsInPublicNetwork`. 
+- For API search, use the unified `searchPostmanElements` tool. Set `ownership: organization` (default) for the user's org resources, `external` for the public Postman network, or `all` for both. To restrict to the trusted Private API Network, add `filters: {"$and":[{"privateNetwork":{"$eq":true}}]}`. For workspace browsing, use `getWorkspaces` + `getCollections`. 
