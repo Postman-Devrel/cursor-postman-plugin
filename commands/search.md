@@ -15,13 +15,20 @@ Postman MCP Server must be configured. If MCP tools fail, tell the user to run `
 
 ### Step 1: Search
 
-1. Call `searchPostmanElementsInPrivateNetwork` with the user's query. This searches the organization's private API network and is the **primary** search path.
-2. If private network results are sparse or private network search is not available, broaden the search:
-   - Call `getWorkspaces` to get the user's workspace ID. If multiple workspaces exist, ask which to use. Then use `getCollections` with the `workspace` parameter. Use the `name` filter to narrow results.
-   - Call `getTaggedEntities` to find collections by tag.
-3. If the user is looking for a public/third-party API (e.g., Stripe, GitHub, Twilio), call `searchPostmanElementsInPublicNetwork` with the user's query.
+Use the unified `searchPostmanElements` tool. It can search across various entity types like requests, collections, workspaces, specs, flows, environments and mocks.. Choose `entityType`, `ownership`, and `filters` based on the user's intent.
 
-**Important:** Default to `searchPostmanElementsInPrivateNetwork` for trusted APIs in user's organisation. Only use `searchPostmanElementsInPublicNetwork` when the user explicitly wants public/third-party APIs or private search returns no results.
+1. Call `searchPostmanElements` with the user's query. Pick the parameters from the user's intent:
+   - `entityType`: `requests` (default), `collections`, `workspaces`, `specs`, or `flows`.
+   - `ownership`: `organization` (default — your org's resources), `external` (public Postman network, third-party APIs), or `all` (both).
+   - `filters`: Optional structured `$and` expression to narrow results — e.g., restrict to the Private API Network, a workspace, or HTTP method.
+2. If results are sparse, broaden the search — widen `ownership` to `all`, drop or relax filters, or try a different `entityType`. You can also fall back to `getWorkspaces` + `getCollections` for browsing, or `getTaggedEntities` to find collections by tag.
+
+**Filter examples:**
+
+- Search only the trusted Private API Network: `ownership: organization` with `filters: {"$and":[{"privateNetwork":{"$eq":true}}]}`
+- Find a third-party public API (e.g. "Stripe API"): `ownership: external` with `filters: {"$and":[{"visibility":{"$eq":"public"}}]}`
+- Restrict to a specific workspace: `filters: {"$and":[{"workspaceId":{"$eq":"ws-abc123"}}]}`
+- GET requests only: `entityType: requests` with `filters: {"$and":[{"method":{"$eq":"GET"}}]}`
 
 ### Step 2: Drill Into Results
 
@@ -93,6 +100,6 @@ Found 3 collections related to "payments":
 
 | Error | Response |
 |-------|----------|
-| No results found | "Nothing matched in your private API network. Try different keywords, browse workspace collections with `getCollections`, or search the public Postman network." |
+| No results found | "Nothing matched your query. Try different keywords, broaden `ownership` to `all`, or browse workspace collections with `getWorkspaces` + `getCollections`." |
 | Empty workspace | "This workspace has no collections. Use /postman:sync to create one from an API spec." |
 | Auth failure | "Postman returned 401. Your API key may be expired. Run /postman:setup to reconfigure." |
