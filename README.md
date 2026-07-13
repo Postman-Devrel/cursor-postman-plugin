@@ -190,7 +190,7 @@ This plugin defaults to **Code mode** (~45-50 tools), which covers 7 of 8 comman
   "mcpServers": {
     "postman": {
       "type": "http",
-      "url": "https://mcp.postman.com/mcp",
+      "url": "https://mcp.postman.com/minimal",
       "headers": {
         "Authorization": "Bearer ${POSTMAN_API_KEY}"
       }
@@ -207,7 +207,7 @@ Edit `.mcp.json` in the plugin directory:
   "mcpServers": {
     "postman": {
       "type": "http",
-      "url": "https://mcp.postman.com",
+      "url": "https://mcp.postman.com/mcp",
       "headers": {
         "Authorization": "Bearer ${POSTMAN_API_KEY}"
       }
