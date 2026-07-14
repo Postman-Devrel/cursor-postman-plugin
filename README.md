@@ -152,6 +152,17 @@ HIGH: No rate limiting defined
 Providing fixes...
 ```
 
+### `/postman:learn` -- Learn Postman
+
+Ask "how do I..." questions about Postman itself and how to accomplish workflows. Searches the official Postman documentation and returns cited answers.
+
+```
+> /postman:learn how do I create a mock server?
+1. Select the collection, open the "..." menu, choose "Mock collection"
+2. Name it, optionally link an environment, then create
+Source: learning.postman.com/docs/design-apis/mock-apis/...
+```
+
 ## Auto-Routing
 
 You don't have to remember command names. The plugin includes a routing skill that maps natural language to the right command:
@@ -163,6 +174,7 @@ You don't have to remember command names. The plugin includes a routing skill th
 | "What endpoints do we have for orders?" | `/postman:search` |
 | "Run my API tests" | `/postman:test` |
 | "I need a mock for frontend dev" | `/postman:mock` |
+| "How do I create a mock server in Postman?" | `/postman:learn` |
 | "Is my API agent-ready?" | Readiness Analyzer agent |
 
 ## API Readiness Analyzer
@@ -239,7 +251,8 @@ cursor-postman-plugin/
 │   ├── test.md                  # /postman:test
 │   ├── mock.md                  # /postman:mock
 │   ├── docs.md                  # /postman:docs
-│   └── security.md              # /postman:security
+│   ├── security.md              # /postman:security
+│   └── learn.md                 # /postman:learn
 ├── skills/
 │   ├── postman-routing/         # Auto-routes intent to commands
 │   ├── postman-knowledge/       # Postman concepts + MCP guidance
