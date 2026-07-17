@@ -19,6 +19,7 @@ When a user mentions anything related to APIs, Postman, collections, specs, or A
 | "mock", "fake API", "stub", "mock server", "frontend needs", "mock URL" | Create mock server | `/postman:mock` |
 | "docs", "documentation", "describe", "document", "API reference", "missing descriptions" | Improve documentation | `/postman:docs` |
 | "security", "audit", "OWASP", "vulnerabilities", "secure", "auth check", "exposed" | Security audit | `/postman:security` |
+| "how do I", "how to", "learn", "explain", "what is", "docs for Postman", "tutorial", "getting started with a feature" | Learn Postman & workflows | `/postman:learn` |
 | "agent-ready", "AI compatible", "scan my API", "grade my API", "readiness", "agent friendly" | API readiness analysis | Invoke `readiness-analyzer` agent |
 | "set up", "configure", "connect postman", "API key", "get started" | First-run setup | `/postman:setup` |
 
