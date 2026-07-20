@@ -10,6 +10,10 @@ section into a dated, versioned entry when a release is cut — see [RELEASING.m
 
 ## [Unreleased]
 
+### Changed
+
+- Updated README installation instructions: Postman is now an official [Cursor Marketplace](https://cursor.com/marketplace/postman) plugin.
+
 ## [1.1.0] - 2026-07-20
 
 ### Added

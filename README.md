@@ -22,12 +22,12 @@ This plugin connects Cursor to your Postman account via the Postman MCP Server a
 
 ## Installation
 
-### From the Cursor Marketplace
+### From the Cursor Marketplace (recommended)
 
-> **Coming soon:** Cursor Marketplace listing and `/add-plugin` support are not yet available. Use the GitHub or local install methods below for now.
+Postman is an official [Cursor Marketplace](https://cursor.com/marketplace/postman) plugin.
 
 1. Open Cursor
-2. Run `/add-plugin postman` or browse the [marketplace](https://cursor.com/marketplace)
+2. Run `/add-plugin postman`, or browse to the [Postman listing](https://cursor.com/marketplace/postman) and click **Install**
 3. Set your API key (see Setup below)
 
 ### From GitHub
@@ -322,4 +322,4 @@ and published as [GitHub Releases](https://github.com/Postman-Devrel/cursor-post
 - [Postman MCP Server](https://github.com/postmanlabs/postman-mcp-server)
 - [Postman API Documentation](https://learning.postman.com/docs/)
 - [Cursor Plugin Documentation](https://cursor.com/docs/plugins)
-- [Cursor Marketplace](https://cursor.com/marketplace) *(coming soon)*
+- [Postman on the Cursor Marketplace](https://cursor.com/marketplace/postman)
