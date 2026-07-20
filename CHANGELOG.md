@@ -10,6 +10,8 @@ section into a dated, versioned entry when a release is cut — see [RELEASING.m
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-07-20
+
 ### Added
 
 - `/postman:learn` command for answering Postman how-to questions.
@@ -37,6 +39,7 @@ section into a dated, versioned entry when a release is cut — see [RELEASING.m
 - API design rules injected into every session.
 - Zero-config MCP setup via the Postman MCP Server.
 
-[Unreleased]: https://github.com/Postman-Devrel/cursor-postman-plugin/compare/1.0.1...HEAD
 [1.0.1]: https://github.com/Postman-Devrel/cursor-postman-plugin/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/Postman-Devrel/cursor-postman-plugin/releases/tag/1.0.0
+[Unreleased]: https://github.com/Postman-Devrel/cursor-postman-plugin/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/Postman-Devrel/cursor-postman-plugin/compare/1.0.1...1.1.0
