@@ -1,0 +1,132 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump"
+        type: choice
+        required: true
+        default: minor
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute new version
+        id: version
+        run: |
+          set -euo pipefail
+          current="$(jq -r '.version' .cursor-plugin/plugin.json)"
+          if [[ ! "$current" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Current version '$current' in plugin.json is not valid SemVer (MAJOR.MINOR.PATCH)."
+            exit 1
+          fi
+          IFS='.' read -r major minor patch <<< "$current"
+          case "${{ inputs.bump }}" in
+            major) major=$((major + 1)); minor=0; patch=0 ;;
+            minor) minor=$((minor + 1)); patch=0 ;;
+            patch) patch=$((patch + 1)) ;;
+          esac
+          new="${major}.${minor}.${patch}"
+          echo "Bumping ${current} -> ${new} (${{ inputs.bump }})"
+          if git rev-parse -q --verify "refs/tags/${new}" >/dev/null; then
+            echo "::error::Tag '${new}' already exists."
+            exit 1
+          fi
+          echo "current=${current}" >> "$GITHUB_OUTPUT"
+          echo "new=${new}" >> "$GITHUB_OUTPUT"
+          echo "date=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Update plugin.json
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp)"
+          jq --arg v "${{ steps.version.outputs.new }}" '.version = $v' .cursor-plugin/plugin.json > "$tmp"
+          mv "$tmp" .cursor-plugin/plugin.json
+
+      - name: Update CHANGELOG and extract release notes
+        id: notes
+        env:
+          NEW: ${{ steps.version.outputs.new }}
+          PREV: ${{ steps.version.outputs.current }}
+          DATE: ${{ steps.version.outputs.date }}
+        run: |
+          set -euo pipefail
+          python3 - "$NEW" "$PREV" "$DATE" <<'PY'
+          import re, sys, pathlib
+
+          new, prev, date = sys.argv[1], sys.argv[2], sys.argv[3]
+          path = pathlib.Path("CHANGELOG.md")
+          text = path.read_text()
+
+          m = re.search(r"^## \[Unreleased\][^\n]*\n", text, re.M)
+          if not m:
+              sys.exit("::error::No '## [Unreleased]' section found in CHANGELOG.md")
+
+          # Body of the Unreleased section = everything up to the next '## ' heading.
+          body_start = m.end()
+          nxt = re.search(r"^## ", text[body_start:], re.M)
+          body_end = body_start + nxt.start() if nxt else len(text)
+          body = text[body_start:body_end].strip()
+          if not body:
+              sys.exit("::error::[Unreleased] section is empty — nothing to release.")
+
+          # Replace the Unreleased heading with a fresh empty one + the dated version heading.
+          replacement = (
+              "## [Unreleased]\n\n"
+              f"## [{new}] - {date}\n"
+          )
+          text = text[:m.start()] + replacement + text[m.end():]
+
+          # Refresh link-reference definitions.
+          lines = [l for l in text.splitlines()
+                   if not re.match(r"^\[Unreleased\]:", l)]
+          text = "\n".join(lines).rstrip() + "\n"
+          repo = "https://github.com/Postman-Devrel/cursor-postman-plugin"
+          text += f"[Unreleased]: {repo}/compare/{new}...HEAD\n"
+          text += f"[{new}]: {repo}/compare/{prev}...{new}\n"
+          path.write_text(text)
+
+          pathlib.Path("RELEASE_NOTES.md").write_text(body + "\n")
+          print(f"Wrote CHANGELOG.md and RELEASE_NOTES.md for {new}")
+          PY
+
+      - name: Commit, tag, and push
+        env:
+          NEW: ${{ steps.version.outputs.new }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .cursor-plugin/plugin.json CHANGELOG.md
+          git commit -m "chore(release): ${NEW}"
+          git tag -a "${NEW}" -m "Release ${NEW}"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
+          git push origin "refs/tags/${NEW}"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEW: ${{ steps.version.outputs.new }}
+        run: |
+          set -euo pipefail
+          gh release create "${NEW}" \
+            --title "${NEW}" \
+            --notes-file RELEASE_NOTES.md

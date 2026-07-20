@@ -1,0 +1,58 @@
+name: PR Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require an [Unreleased] changelog entry for content changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          changed="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
+          echo "Changed files:"
+          echo "$changed"
+
+          # Plugin surface that a user-facing release should account for.
+          # (plugin.json is intentionally excluded — the version bump is the
+          # release workflow's job, not the feature PR's.)
+          content="$(echo "$changed" | grep -E '^(commands/|skills/|agents/|rules/|\.mcp\.json)' || true)"
+          if [[ -z "$content" ]]; then
+            echo "No plugin content changed — no changelog entry required."
+            exit 0
+          fi
+
+          echo "Plugin content changed:"
+          echo "$content"
+
+          # Extract the body of the [Unreleased] section at a given ref.
+          unreleased() {
+            git show "$1":CHANGELOG.md 2>/dev/null \
+              | awk '/^## \[Unreleased\]/{f=1;next} /^## /{f=0} f' \
+              | sed '/^[[:space:]]*$/d' || true
+          }
+
+          base_unreleased="$(unreleased "$BASE_SHA")"
+          head_unreleased="$(awk '/^## \[Unreleased\]/{f=1;next} /^## /{f=0} f' CHANGELOG.md | sed '/^[[:space:]]*$/d')"
+
+          if [[ "$base_unreleased" == "$head_unreleased" ]]; then
+            echo "::error::Plugin content changed but the [Unreleased] section of CHANGELOG.md was not updated."
+            echo "Add an entry describing your change under '## [Unreleased]'. See RELEASING.md."
+            exit 1
+          fi
+
+          echo "CHANGELOG.md [Unreleased] section updated — check passed."

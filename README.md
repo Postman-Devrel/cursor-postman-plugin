@@ -273,8 +273,9 @@ cursor-postman-plugin/
 1. Fork this repository
 2. Create a feature branch: `git checkout -b feature/my-improvement`
 3. Make your changes
-4. Test locally: `/add-plugin /path/to/your/fork`
-5. Submit a pull request
+4. Add an entry under `[Unreleased]` in [`CHANGELOG.md`](CHANGELOG.md)
+5. Test locally: `/add-plugin /path/to/your/fork`
+6. Submit a pull request
 
 ### Adding a New Command
 
@@ -296,6 +297,15 @@ git clone https://github.com/Postman-Devrel/cursor-postman-plugin.git
 # Verify
 /postman:setup
 ```
+
+## Versioning & Releases
+
+This plugin follows [Semantic Versioning](https://semver.org/); the current version is in
+[`.cursor-plugin/plugin.json`](.cursor-plugin/plugin.json). See [`CHANGELOG.md`](CHANGELOG.md)
+for changes between versions and [`RELEASING.md`](RELEASING.md) for the release process.
+
+`/add-plugin Postman-Devrel/cursor-postman-plugin` tracks `main`; releases are tagged (e.g. `1.0.1`)
+and published as [GitHub Releases](https://github.com/Postman-Devrel/cursor-postman-plugin/releases).
 
 ## License
 
