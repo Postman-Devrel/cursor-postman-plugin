@@ -8,7 +8,7 @@ Full API lifecycle management inside Cursor. Sync collections, generate typed cl
 
 This plugin connects Cursor to your Postman account via the Postman MCP Server and bundles purpose-built commands, skills, and an API readiness analyzer. One install gives you:
 
-- **8 commands** covering the complete API lifecycle
+- **9 commands** covering the complete API lifecycle
 - **3 auto-loaded skills** that teach the agent how to use Postman effectively
 - **1 sub-agent** for deep API readiness analysis (48 checks across 8 pillars)
 - **API design rules** injected into every session
@@ -194,7 +194,7 @@ See `examples/sample-readiness-report.md` for a sample output.
 
 ### MCP Server Modes
 
-This plugin defaults to **Code mode** (~45-50 tools), which covers 7 of 8 commands fully. The only gap is documentation publishing (available in Full mode only).
+This plugin defaults to **Code mode** (~45-50 tools), which covers 8 of 9 commands fully. The only gap is documentation publishing (available in Full mode only).
 
 **Code mode (default):**
 ```json
