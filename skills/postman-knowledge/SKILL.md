@@ -36,6 +36,7 @@ Core Postman concepts and MCP tool guidance for making better decisions when wor
 |------|----------|
 | Push code changes to Postman | Spec Hub + sync (`createSpec` -> `syncCollectionWithSpec`) |
 | Generate an OpenAPI spec from your code | Scan the project's routes and write a spec (`/postman:generate-spec`) |
+| Generate a typed client from a Postman collection | Read the collection and write client code (`/postman:generate-client`) |
 | Find an API | Use `searchPostmanElements`, then drill into details  |
 | Test an API | Run collection (`runCollection` with environment) |
 | Fake an API for frontend | Mock server (`createMock` from collection with examples) |

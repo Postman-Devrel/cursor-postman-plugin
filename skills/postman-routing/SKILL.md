@@ -14,6 +14,7 @@ When a user mentions anything related to APIs, Postman, collections, specs, or A
 |---------------------|----------|---------|
 | "sync", "update collection", "create collection", "import spec", "push to postman", "keep in sync", "deploy spec" | Sync collections with code | `/postman:sync` |
 | "generate spec", "openapi", "swagger", "spec from code", "api spec", "document the api shape" | Generate an OpenAPI spec from code | `/postman:generate-spec` |
+| "generate client", "client", "SDK", "typed client", "api client", "consume", "wrapper", "code for" | Generate a client from a collection | `/postman:generate-client` |
 | "run collection", "run the collection", "newman", "run via CLI" | Run a collection with the CLI | `/postman:run-collection` |
 | "send request", "curl", "hit this endpoint", "make a request", "call this URL" | Send an HTTP request | `/postman:send-request` |
 | "list flows", "what flows", "find a flow" | List Postman Flows | `/postman:list-flows` |

@@ -1,6 +1,6 @@
 # Postman Plugin for Cursor
 
-Full API lifecycle management inside Cursor. Sync collections, generate OpenAPI specs, discover APIs, run tests, create mocks, run Flows, improve documentation, and audit security. Powered by the [Postman MCP Server](https://github.com/postmanlabs/postman-mcp-server).
+Full API lifecycle management inside Cursor. Sync collections, generate OpenAPI specs and typed clients, discover APIs, run tests, create mocks, run Flows, improve documentation, and audit security. Powered by the [Postman MCP Server](https://github.com/postmanlabs/postman-mcp-server).
 
 > **Note:** This plugin mirrors the [Postman Plugin for Claude Code](https://github.com/Postman-Devrel/postman-claude-code-plugin), which is the source of truth for Postman's AI coding agent plugins.
 
@@ -8,7 +8,7 @@ Full API lifecycle management inside Cursor. Sync collections, generate OpenAPI 
 
 This plugin connects Cursor to your Postman account via the Postman MCP Server and bundles purpose-built commands, skills, and an API readiness analyzer. One install gives you:
 
-- **17 commands** covering the complete API lifecycle (the canonical command set shared with the [Claude Code](https://github.com/Postman-Devrel/postman-claude-code-plugin) and Antigravity plugins)
+- **18 commands** covering the complete API lifecycle (the canonical command set shared with the [Claude Code](https://github.com/Postman-Devrel/postman-claude-code-plugin) and Antigravity plugins)
 - **3 auto-loaded skills** that teach the agent how to use Postman effectively
 - **1 sub-agent** for deep API readiness analysis (48 checks across 8 pillars)
 - **API design rules** injected into every session
@@ -96,6 +96,17 @@ Generate or update an OpenAPI 3.0 spec by scanning the API routes in your codeba
 Scanned 8 routes in src/routes/
 Wrote postman/specs/openapi.yaml (8 endpoints, 4 schemas)
 Validation: passed
+```
+
+### `/postman:generate-client` -- Generate Client Code
+
+Generate typed client code from any Postman collection. Detects your project language and matches existing conventions. (The inverse of `generate-spec`: client code **from** a collection, rather than a spec **from** your code.)
+
+```
+> /postman:generate-client
+Which collection? "User Management API"
+Detected: TypeScript project
+Generated: src/clients/user-management-api.ts (5 endpoints, 8 types)
 ```
 
 ### `/postman:search` -- Discover APIs
@@ -236,6 +247,7 @@ You don't have to remember command names. The plugin includes a routing skill th
 |---------|------------|
 | "Sync my API with Postman" | `/postman:sync` |
 | "Generate an OpenAPI spec from my API code" | `/postman:generate-spec` |
+| "Generate a Python client for the payments API" | `/postman:generate-client` |
 | "Run the checkout collection" | `/postman:run-collection` |
 | "Trigger the Checkout flow with amount 4200" | `/postman:trigger-flow` |
 | "Run the Postman MCP server locally" | `/postman:use-local` |
@@ -311,10 +323,11 @@ cursor-postman-plugin/
 ├── .cursor-plugin/
 │   └── plugin.json              # Plugin manifest
 ├── .mcp.json                    # Postman MCP server config (Code mode)
-├── commands/                    # 17 commands (canonical cross-plugin set)
+├── commands/                    # 18 commands (canonical cross-plugin set)
 │   ├── setup.md                 # /postman:setup
 │   ├── sync.md                  # /postman:sync
 │   ├── generate-spec.md         # /postman:generate-spec
+│   ├── generate-client.md       # /postman:generate-client
 │   ├── search.md                # /postman:search
 │   ├── test.md                  # /postman:test
 │   ├── run-collection.md        # /postman:run-collection

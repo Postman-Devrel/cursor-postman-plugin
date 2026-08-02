@@ -75,6 +75,7 @@ Try these commands:
   /postman:search   -- Find APIs across your workspaces
   /postman:sync     -- Create or update collections from your code
   /postman:generate-spec -- Generate or update an OpenAPI spec from your code
+  /postman:generate-client -- Generate a typed client from a collection
   /postman:test     -- Run collection tests
   /postman:mock     -- Create a mock server
   /postman:docs     -- Analyze and improve API documentation
