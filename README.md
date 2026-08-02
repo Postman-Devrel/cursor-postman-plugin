@@ -1,6 +1,6 @@
 # Postman Plugin for Cursor
 
-Full API lifecycle management inside Cursor. Sync collections, generate typed client code, discover APIs, run tests, create mocks, improve documentation, and audit security. Powered by the [Postman MCP Server](https://github.com/postmanlabs/postman-mcp-server).
+Full API lifecycle management inside Cursor. Sync collections, generate OpenAPI specs and typed clients, discover APIs, run tests, create mocks, run Flows, improve documentation, and audit security. Powered by the [Postman MCP Server](https://github.com/postmanlabs/postman-mcp-server).
 
 > **Note:** This plugin mirrors the [Postman Plugin for Claude Code](https://github.com/Postman-Devrel/postman-claude-code-plugin), which is the source of truth for Postman's AI coding agent plugins.
 
@@ -8,7 +8,7 @@ Full API lifecycle management inside Cursor. Sync collections, generate typed cl
 
 This plugin connects Cursor to your Postman account via the Postman MCP Server and bundles purpose-built commands, skills, and an API readiness analyzer. One install gives you:
 
-- **9 commands** covering the complete API lifecycle
+- **18 commands** covering the complete API lifecycle (the canonical command set shared with the [Claude Code](https://github.com/Postman-Devrel/postman-claude-code-plugin) and Antigravity plugins)
 - **3 auto-loaded skills** that teach the agent how to use Postman effectively
 - **1 sub-agent** for deep API readiness analysis (48 checks across 8 pillars)
 - **API design rules** injected into every session
@@ -87,12 +87,23 @@ Creating collection "Pet Store API" with 15 endpoints...
 Collection synced. Environment "Pet Store - Dev" created.
 ```
 
-### `/postman:codegen` -- Generate Client Code
+### `/postman:generate-spec` -- Generate an OpenAPI Spec
 
-Generate typed client code from any Postman collection. Detects your project language and matches existing conventions.
+Generate or update an OpenAPI 3.0 spec by scanning the API routes in your codebase, then validate it with the Postman CLI.
 
 ```
-> /postman:codegen
+> /postman:generate-spec
+Scanned 8 routes in src/routes/
+Wrote postman/specs/openapi.yaml (8 endpoints, 4 schemas)
+Validation: passed
+```
+
+### `/postman:generate-client` -- Generate Client Code
+
+Generate typed client code from any Postman collection. Detects your project language and matches existing conventions. (The inverse of `generate-spec`: client code **from** a collection, rather than a spec **from** your code.)
+
+```
+> /postman:generate-client
 Which collection? "User Management API"
 Detected: TypeScript project
 Generated: src/clients/user-management-api.ts (5 endpoints, 8 types)
@@ -163,6 +174,71 @@ Ask "how do I..." questions about Postman itself and how to accomplish workflows
 Source: learning.postman.com/docs/design-apis/mock-apis/...
 ```
 
+### `/postman:run-collection` -- Run a Collection (CLI)
+
+Run a Postman collection with the Postman CLI, then parse the results and diagnose failures.
+
+```
+> /postman:run-collection
+Running collection 12345678-...
+Passed: 14/15 -- diagnosing the 1 failure...
+```
+
+### `/postman:send-request` -- Send an HTTP Request (CLI)
+
+Send a single ad-hoc HTTP request with the Postman CLI and report the response.
+
+```
+> /postman:send-request GET https://api.example.com/health
+200 OK (82ms) -- {"status":"healthy"}
+```
+
+### `/postman:list-flows` -- List Flows
+
+List Postman Flows in a workspace and resolve a flow name to its 24-character ID.
+
+```
+> /postman:list-flows
+Checkout   -- 6634a1... (last run: passed)
+Onboarding -- 6634b2... (last run: failed)
+```
+
+### `/postman:trigger-flow` -- Trigger a Flow
+
+Trigger a deployed Postman Flow with inputs from natural language, and report the Run ID, status, and response.
+
+```
+> /postman:trigger-flow Checkout with amount 4200
+Run ID: run_abc123  Status: 200  Body: {"ok":true}
+```
+
+### `/postman:deploy-flow` -- Deploy a Flow
+
+Deploy a Postman Flow so it becomes triggerable, confirming the trigger path first (deploy is mutating).
+
+```
+> /postman:deploy-flow Checkout
+Proposed path: /checkout -- confirm? (y/n)
+Deployed. Trigger URL: https://...  Trigger: enabled
+```
+
+### `/postman:get-flow-run` -- Inspect a Flow Run
+
+Inspect a Flow run by its Run ID -- per-block logs, the failing block, and status.
+
+```
+> /postman:get-flow-run run_abc123
+Status: failed  Failing block: "Charge Card" (502 from upstream)
+```
+
+### `/postman:use-local` -- Use the Local MCP Server
+
+Rewrite this plugin's `.mcp.json` to run the Postman MCP server locally over stdio (`npx @postman/postman-mcp-server@latest`), authenticated with your `POSTMAN_API_KEY`.
+
+### `/postman:use-remote` -- Use the Remote MCP Server
+
+Rewrite this plugin's `.mcp.json` back to Postman's hosted MCP server (`https://mcp.postman.com/mcp`), authenticated with your API key.
+
 ## Auto-Routing
 
 You don't have to remember command names. The plugin includes a routing skill that maps natural language to the right command:
@@ -170,7 +246,11 @@ You don't have to remember command names. The plugin includes a routing skill th
 | You say | Plugin runs |
 |---------|------------|
 | "Sync my API with Postman" | `/postman:sync` |
-| "Generate a Python client for the payments API" | `/postman:codegen` |
+| "Generate an OpenAPI spec from my API code" | `/postman:generate-spec` |
+| "Generate a Python client for the payments API" | `/postman:generate-client` |
+| "Run the checkout collection" | `/postman:run-collection` |
+| "Trigger the Checkout flow with amount 4200" | `/postman:trigger-flow` |
+| "Run the Postman MCP server locally" | `/postman:use-local` |
 | "What endpoints do we have for orders?" | `/postman:search` |
 | "Run my API tests" | `/postman:test` |
 | "I need a mock for frontend dev" | `/postman:mock` |
@@ -194,7 +274,7 @@ See `examples/sample-readiness-report.md` for a sample output.
 
 ### MCP Server Modes
 
-This plugin defaults to **Code mode** (~45-50 tools), which covers 8 of 9 commands fully. The only gap is documentation publishing (available in Full mode only).
+This plugin ships with the Full (`https://mcp.postman.com/mcp`) endpoint in `.mcp.json`, which covers every MCP-based command including documentation publishing. The Flow, `run-collection`, `send-request`, and `generate-spec` commands drive the Postman CLI instead of MCP, so they work regardless of the MCP mode. Use `/postman:use-remote` or `/postman:use-local` to switch the MCP transport at any time.
 
 **Code mode (default):**
 ```json
@@ -243,16 +323,25 @@ cursor-postman-plugin/
 ├── .cursor-plugin/
 │   └── plugin.json              # Plugin manifest
 ├── .mcp.json                    # Postman MCP server config (Code mode)
-├── commands/
+├── commands/                    # 18 commands (canonical cross-plugin set)
 │   ├── setup.md                 # /postman:setup
 │   ├── sync.md                  # /postman:sync
-│   ├── codegen.md               # /postman:codegen
+│   ├── generate-spec.md         # /postman:generate-spec
+│   ├── generate-client.md       # /postman:generate-client
 │   ├── search.md                # /postman:search
 │   ├── test.md                  # /postman:test
+│   ├── run-collection.md        # /postman:run-collection
+│   ├── send-request.md          # /postman:send-request
 │   ├── mock.md                  # /postman:mock
 │   ├── docs.md                  # /postman:docs
 │   ├── security.md              # /postman:security
-│   └── learn.md                 # /postman:learn
+│   ├── learn.md                 # /postman:learn
+│   ├── list-flows.md            # /postman:list-flows
+│   ├── trigger-flow.md          # /postman:trigger-flow
+│   ├── deploy-flow.md           # /postman:deploy-flow
+│   ├── get-flow-run.md          # /postman:get-flow-run
+│   ├── use-local.md             # /postman:use-local
+│   └── use-remote.md            # /postman:use-remote
 ├── skills/
 │   ├── postman-routing/         # Auto-routes intent to commands
 │   ├── postman-knowledge/       # Postman concepts + MCP guidance

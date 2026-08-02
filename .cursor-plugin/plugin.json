@@ -1,7 +1,7 @@
 {
   "name": "postman",
-  "version": "1.1.0",
-  "description": "Full API lifecycle management for Cursor. Sync collections, generate client code, discover APIs, run tests, create mocks, improve docs, and audit security. Powered by the Postman MCP Server.",
+  "version": "1.2.0",
+  "description": "Full API lifecycle management for Cursor. Sync collections, generate OpenAPI specs, discover APIs, run tests and Flows, create mocks, improve docs, and audit security. Powered by the Postman MCP Server.",
   "author": {
     "name": "Postman DevRel",
     "url": "https://www.postman.com"

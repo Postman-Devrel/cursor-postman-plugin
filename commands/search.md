@@ -59,7 +59,7 @@ Yes, you can get a user's email via the API.
       "created_at": "2026-01-15T10:30:00Z"
     }
 
-  Want me to generate a client for this API? (/postman:codegen)
+  Want me to generate a typed client for this API? (/postman:generate-client)
 ```
 
 **When the answer is not found:**
@@ -93,7 +93,7 @@ Found 3 collections related to "payments":
      - GET /revenue/summary -- Revenue dashboard
      ... and 7 more
 
-  Want details on any of these? Or /postman:codegen to generate a client.
+  Want details on any of these? Or /postman:generate-client to generate a typed client.
 ```
 
 ## Error Handling

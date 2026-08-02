@@ -3,13 +3,17 @@ description: Generate typed client code from Postman collections. Reads your pri
 allowed-tools: Bash, Read, Write, Glob, Grep, mcp__postman__*
 ---
 
-# /postman:codegen -- Generate Client Code
+# /postman:generate-client -- Generate Client Code
 
 Generate typed client code from Postman collections. Reads your private APIs and writes production-ready client code that matches your project conventions.
+
+> This is the inverse of `/postman:generate-spec` (which writes an OpenAPI spec **from** your code). This command writes client code **from** a Postman collection.
 
 ## Prerequisites
 
 Postman MCP Server must be configured. If MCP tools fail, tell the user to run `/postman:setup`.
+
+**MCP mode:** requires **Code** or **Full** mode — the code-generation tools (`getCodeGenerationInstructions`, etc.) are absent in `minimal`. This plugin's `.mcp.json` points at the Full endpoint (`https://mcp.postman.com/mcp`), so it works out of the box.
 
 ## Workflow
 
