@@ -56,3 +56,39 @@ jobs:
           fi
 
           echo "CHANGELOG.md [Unreleased] section updated — check passed."
+
+  plugin-headers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: .mcp.json must carry attribution headers matching plugin.json
+        run: |
+          set -euo pipefail
+
+          version="$(jq -r '.version' .cursor-plugin/plugin.json)"
+          source="$(jq -r '.mcpServers.postman.headers["X-Source"] // empty' .mcp.json)"
+          plugin_version="$(jq -r '.mcpServers.postman.headers["X-Plugin-Version"] // empty' .mcp.json)"
+          user_agent="$(jq -r '.mcpServers.postman.headers["User-Agent"] // empty' .mcp.json)"
+
+          fail=0
+          if [[ "$source" != "cursor-plugin" ]]; then
+            echo "::error::.mcp.json X-Source is '$source', expected 'cursor-plugin'. This header is how plugin traffic is identified downstream."
+            fail=1
+          fi
+          if [[ "$plugin_version" != "$version" ]]; then
+            echo "::error::.mcp.json X-Plugin-Version is '$plugin_version' but .cursor-plugin/plugin.json is '$version'."
+            fail=1
+          fi
+          if [[ "$user_agent" != "cursor-postman-plugin/$version" ]]; then
+            echo "::error::.mcp.json User-Agent is '$user_agent', expected 'cursor-postman-plugin/$version'."
+            fail=1
+          fi
+
+          if [[ "$fail" -ne 0 ]]; then
+            echo "The release workflow bumps these headers automatically; if you edited .mcp.json by hand, match .cursor-plugin/plugin.json."
+            exit 1
+          fi
+
+          echo "Attribution headers present and in sync with plugin.json ($version) — check passed."

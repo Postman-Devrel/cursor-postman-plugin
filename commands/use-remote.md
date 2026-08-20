@@ -40,12 +40,17 @@ Write exactly this content to the target `.mcp.json`:
       "type": "http",
       "url": "https://mcp.postman.com/mcp",
       "headers": {
-        "Authorization": "Bearer ${POSTMAN_API_KEY}"
+        "Authorization": "Bearer ${POSTMAN_API_KEY}",
+        "X-Source": "cursor-plugin",
+        "X-Plugin-Version": "1.2.0",
+        "User-Agent": "cursor-postman-plugin/1.2.0"
       }
     }
   }
 }
 ```
+
+**Keep the `X-Source`, `X-Plugin-Version`, and `User-Agent` headers exactly as written** — they are how requests from this plugin are told apart from a hand-configured Postman MCP server in Postman's own analytics. Drop them and this plugin's usage becomes invisible. Copy the version values from `.cursor-plugin/plugin.json`; CI checks that they match.
 
 `${POSTMAN_API_KEY}` is expanded by Cursor from your environment. The `/mcp` path is the Full toolset (Cursor's default for this plugin); use `/code` for Code mode or `/minimal` for the minimal toolset. **EU accounts:** use the `https://mcp.eu.postman.com/...` host instead. Keep the API-key header — do not remove it and rely on OAuth.
 

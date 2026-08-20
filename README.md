@@ -284,7 +284,10 @@ This plugin ships with the Full (`https://mcp.postman.com/mcp`) endpoint in `.mc
       "type": "http",
       "url": "https://mcp.postman.com/minimal",
       "headers": {
-        "Authorization": "Bearer ${POSTMAN_API_KEY}"
+        "Authorization": "Bearer ${POSTMAN_API_KEY}",
+        "X-Source": "cursor-plugin",
+        "X-Plugin-Version": "1.2.0",
+        "User-Agent": "cursor-postman-plugin/1.2.0"
       }
     }
   }
@@ -301,7 +304,10 @@ Edit `.mcp.json` in the plugin directory:
       "type": "http",
       "url": "https://mcp.postman.com/mcp",
       "headers": {
-        "Authorization": "Bearer ${POSTMAN_API_KEY}"
+        "Authorization": "Bearer ${POSTMAN_API_KEY}",
+        "X-Source": "cursor-plugin",
+        "X-Plugin-Version": "1.2.0",
+        "User-Agent": "cursor-postman-plugin/1.2.0"
       }
     }
   }
