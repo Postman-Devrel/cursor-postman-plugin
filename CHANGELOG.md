@@ -10,6 +10,8 @@ section into a dated, versioned entry when a release is cut — see [RELEASING.m
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-08-20
+
 ### Added
 
 - Attribution headers on the hosted MCP server in `.mcp.json` (`X-Source: cursor-plugin`,
@@ -64,6 +66,7 @@ section into a dated, versioned entry when a release is cut — see [RELEASING.m
 
 [1.0.1]: https://github.com/Postman-Devrel/cursor-postman-plugin/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/Postman-Devrel/cursor-postman-plugin/releases/tag/1.0.0
-[Unreleased]: https://github.com/Postman-Devrel/cursor-postman-plugin/compare/1.2.0...HEAD
 [1.2.0]: https://github.com/Postman-Devrel/cursor-postman-plugin/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/Postman-Devrel/cursor-postman-plugin/compare/1.0.1...1.1.0
+[Unreleased]: https://github.com/Postman-Devrel/cursor-postman-plugin/compare/1.3.0...HEAD
+[1.3.0]: https://github.com/Postman-Devrel/cursor-postman-plugin/compare/1.2.0...1.3.0
