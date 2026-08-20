@@ -10,6 +10,17 @@ section into a dated, versioned entry when a release is cut — see [RELEASING.m
 
 ## [Unreleased]
 
+### Added
+
+- Attribution headers on the hosted MCP server in `.mcp.json` (`X-Source: cursor-plugin`,
+  `X-Plugin-Version`, and `User-Agent: cursor-postman-plugin/<version>`), matching the pattern the
+  [Claude Code plugin](https://github.com/Postman-Devrel/postman-claude-code-plugin) already ships.
+  Without them, requests from this plugin are indistinguishable from a hand-configured Postman MCP
+  server, so the plugin's usage cannot be measured at all. `/postman:use-remote` and the README
+  configuration examples now include the headers so they survive a transport switch.
+- `plugin-headers` job in the PR Check workflow, and a release-workflow step that bumps the header
+  versions alongside `.cursor-plugin/plugin.json`, so the two can never drift apart silently.
+
 ## [1.2.0] - 2026-08-02
 
 ### Added

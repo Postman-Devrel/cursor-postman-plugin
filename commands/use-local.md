@@ -47,6 +47,8 @@ Write exactly this content to the target `.mcp.json`:
 }
 ```
 
+> **Note:** the local stdio package reports its own user agent (`@postman/postman-mcp-server/<ver>`), and `.mcp.json` headers do not apply to a stdio transport. Requests made in local mode therefore cannot be attributed to this plugin in Postman's analytics — only that they came from Cursor. Remote mode (`/postman:use-remote`) carries the plugin headers.
+
 `${POSTMAN_API_KEY}` is expanded by Cursor from your environment, and the spawned stdio process also inherits your shell environment. To match Cursor's default remote toolset (the `/mcp` Full endpoint), add `"--full"` to `args`. Use `"--code"` for Code mode or `"--minimal"` for the minimal toolset.
 
 ### Step 4: Confirm and Restart

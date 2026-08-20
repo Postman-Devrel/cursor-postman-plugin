@@ -2,7 +2,12 @@
   "mcpServers": {
     "postman": {
       "type": "http",
-      "url": "https://mcp.postman.com/mcp"
+      "url": "https://mcp.postman.com/mcp",
+      "headers": {
+        "X-Source": "cursor-plugin",
+        "X-Plugin-Version": "1.2.0",
+        "User-Agent": "cursor-postman-plugin/1.2.0"
+      }
     }
   }
 }
