@@ -1,3 +1,21 @@
+
+# Deprecated
+This project has now been deprecated and rolled into the officia [Postman Plugins](https://github.com/postmanlabs/postman-plugin) project. It is now in read-only mode, with no more updates. Please download the plugin directly from the relevant marketplace listings or the github repo linked above.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Postman Plugin for Cursor
 
 Full API lifecycle management inside Cursor. Sync collections, generate OpenAPI specs and typed clients, discover APIs, run tests, create mocks, run Flows, improve documentation, and audit security. Powered by the [Postman MCP Server](https://github.com/postmanlabs/postman-mcp-server).
